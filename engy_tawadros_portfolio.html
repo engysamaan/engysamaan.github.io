@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--navy:#0a1628;--navy2:#0f2040;--gold:#c9a84c;--gold2:#e8c97a;
+--text:#e8e4dc;--muted:#8a9ab5;--card:#111e35;--border:#1e3050;
+}
+body{background:var(--navy);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.7}
+a{color:var(--gold);text-decoration:none}
+a:hover{color:var(--gold2)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,22,40,0.95);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
+.nav-logo{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--gold)}
+.nav-links{display:flex;gap:2rem}
+.nav-links a{color:var(--muted);font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--gold)}
+
+.hero{min-height:100vh;display:flex;align-items:center;padding:6rem 2rem 4rem;max-width:1100px;margin:0 auto}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;width:100%}
+.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:100px;padding:0.4rem 1rem;font-size:0.8rem;color:var(--gold);letter-spacing:0.05em;margin-bottom:1.5rem}
+.badge-dot{width:6px;height:6px;background:#4caf7d;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+h1{font-family:'DM Serif Display',serif;font-size:3.5rem;line-height:1.15;margin-bottom:1rem;color:var(--text)}
+h1 em{font-style:italic;color:var(--gold)}
+.hero-sub{color:var(--muted);font-size:1.05rem;margin-bottom:2rem;max-width:480px}
+.hero-cta{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{background:var(--gold);color:var(--navy);padding:0.75rem 1.75rem;border-radius:4px;font-weight:500;font-size:0.9rem;transition:all 0.2s}
+.btn-primary:hover{background:var(--gold2);color:var(--navy)}
+.btn-secondary{border:1px solid var(--border);color:var(--muted);padding:0.75rem 1.75rem;border-radius:4px;font-size:0.9rem;transition:all 0.2s}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.25rem;text-align:center}
+.stat-num{font-family:'DM Serif Display',serif;font-size:2.2rem;color:var(--gold)}
+.stat-label{font-size:0.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-top:0.25rem}
+.stat-card.highlight{border-color:rgba(201,168,76,0.4);background:rgba(201,168,76,0.05)}
+
+section{max-width:1100px;margin:0 auto;padding:5rem 2rem}
+.section-tag{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--gold);margin-bottom:0.75rem}
+.section-title{font-family:'DM Serif Display',serif;font-size:2.2rem;color:var(--text);margin-bottom:1rem}
+.section-sub{color:var(--muted);max-width:560px;margin-bottom:3rem}
+hr.divider{border:none;border-top:1px solid var(--border);margin:0}
+
+.projects-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.project-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.75rem;transition:all 0.25s;position:relative;overflow:hidden}
+.project-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),transparent);opacity:0;transition:opacity 0.25s}
+.project-card:hover{border-color:rgba(201,168,76,0.4);transform:translateY(-2px)}
+.project-card:hover::before{opacity:1}
+.project-card.featured{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+.project-tag{display:inline-block;background:rgba(201,168,76,0.1);color:var(--gold);font-size:0.72rem;padding:0.25rem 0.75rem;border-radius:100px;letter-spacing:0.05em;margin-bottom:1rem}
+.project-title{font-family:'DM Serif Display',serif;font-size:1.35rem;color:var(--text);margin-bottom:0.75rem}
+.project-desc{color:var(--muted);font-size:0.9rem;line-height:1.7;margin-bottom:1.25rem}
+.project-impact{background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);border-radius:6px;padding:0.75rem 1rem;margin-bottom:1.25rem}
+.impact-row{display:flex;align-items:center;gap:0.5rem;font-size:0.85rem}
+.impact-num{color:var(--gold);font-weight:500;font-size:1.1rem}
+.impact-text{color:var(--muted)}
+.project-tech{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.25rem}
+.tech-pill{background:rgba(30,48,80,0.8);border:1px solid var(--border);color:var(--muted);font-size:0.72rem;padding:0.2rem 0.6rem;border-radius:4px}
+.project-link{color:var(--gold);font-size:0.85rem;display:inline-flex;align-items:center;gap:0.35rem}
+.project-link::after{content:'→'}
+.project-link:hover{color:var(--gold2)}
+
+.exp-list{display:flex;flex-direction:column;gap:1.5rem}
+.exp-item{display:grid;grid-template-columns:180px 1fr;gap:2rem;padding:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:10px;transition:border-color 0.2s}
+.exp-item:hover{border-color:rgba(201,168,76,0.3)}
+.exp-period{font-size:0.8rem;color:var(--muted);padding-top:0.2rem}
+.exp-company{font-weight:500;color:var(--gold);font-size:0.9rem;margin-bottom:0.25rem}
+.exp-role{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--text);margin-bottom:0.75rem}
+.exp-bullets{list-style:none;display:flex;flex-direction:column;gap:0.4rem}
+.exp-bullets li{font-size:0.875rem;color:var(--muted);padding-left:1rem;position:relative}
+.exp-bullets li::before{content:'—';position:absolute;left:0;color:var(--gold)}
+
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.skill-group{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.skill-group-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);margin-bottom:1rem}
+.skill-tags{display:flex;flex-wrap:wrap;gap:0.5rem}
+.skill-tag{background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);color:var(--text);font-size:0.8rem;padding:0.3rem 0.7rem;border-radius:4px}
+
+.clearance-banner{background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(201,168,76,0.05));border:1px solid rgba(201,168,76,0.3);border-radius:12px;padding:2rem;display:flex;align-items:center;gap:2rem;margin-top:3rem}
+.clearance-icon{font-size:2.5rem}
+.clearance-title{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--gold);margin-bottom:0.25rem}
+.clearance-sub{color:var(--muted);font-size:0.875rem}
+
+footer{border-top:1px solid var(--border);padding:3rem 2rem;max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-name{font-family:'DM Serif Display',serif;color:var(--gold)}
+.footer-links{display:flex;gap:1.5rem}
+.footer-links a{color:var(--muted);font-size:0.85rem;transition:color 0.2s}
+.footer-links a:hover{color:var(--gold)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">ET</div>
+  <div class="nav-links">
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="mailto:engytimothawes@gmail.com">Contact</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge"><span class="badge-dot"></span> Open to new opportunities</div>
+      <h1>Python & AWS<br><em>Data Engineer</em></h1>
+      <p class="hero-sub">I don't just write code — I design systems that solve real business problems. 6 years building ETL pipelines, cloud automation, and data architectures that deliver measurable impact.</p>
+      <div class="hero-cta">
+        <a href="https://github.com/engysamaan" class="btn-primary">View GitHub</a>
+        <a href="https://www.linkedin.com/in/engy-tawadros/" class="btn-secondary">LinkedIn</a>
+        <a href="mailto:engytimothawes@gmail.com" class="btn-secondary">Contact Me</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-card highlight">
+        <div class="stat-num">6+</div>
+        <div class="stat-label">Years Python</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">88%</div>
+        <div class="stat-label">Deployment Time Saved</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">90%</div>
+        <div class="stat-label">Setup Time Reduced</div>
+      </div>
+      <div class="stat-card highlight">
+        <div class="stat-num">T3</div>
+        <div class="stat-label">Secret Clearance</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<section id="projects">
+  <div class="section-tag">Selected Work</div>
+  <h2 class="section-title">Projects & Impact</h2>
+  <p class="section-sub">Real problems. Real solutions. Measurable results.</p>
+
+  <div class="projects-grid">
+
+    <div class="project-card featured">
+      <div>
+        <div class="project-tag">AWS · Python · ServiceNow · Lambda</div>
+        <h3 class="project-title">Deployment Automation Pipeline</h3>
+        <p class="project-desc">My manager came to me with a painful problem — every deployment took 2 hours of manual work. I shadowed an AWS admin through the full process, researched every AWS service against our budget and security requirements, then designed a 3-stage event-driven pipeline from scratch. I was the only developer on the team. I presented the architecture to AWS admins, my manager, and the Director — answered every challenge — and got full approval to build.</p>
+        <div class="project-tech">
+          <span class="tech-pill">AWS Lambda</span><span class="tech-pill">S3</span><span class="tech-pill">EC2</span>
+          <span class="tech-pill">SSM</span><span class="tech-pill">EventBridge</span><span class="tech-pill">ServiceNow</span>
+          <span class="tech-pill">Azure DevOps</span><span class="tech-pill">IAM</span>
+        </div>
+        <a href="https://engy-tawadros-profile.s3.us-east-1.amazonaws.com/Deployment+Automation+POC.pdf" class="project-link">View Architecture Diagram</a>
+      </div>
+      <div>
+        <div class="project-impact">
+          <div class="impact-row"><span class="impact-num">88%</span><span class="impact-text">reduction in deployment time</span></div>
+          <div class="impact-row" style="margin-top:0.5rem"><span class="impact-num">2hrs → 15min</span><span class="impact-text">per deployment</span></div>
+          <div class="impact-row" style="margin-top:0.5rem"><span class="impact-num">0</span><span class="impact-text">manual errors after automation</span></div>
+        </div>
+        <p class="project-desc" style="font-size:0.82rem">3-stage pipeline: S3 trigger → Lambda → SSM (Stage 1), ServiceNow ticket validation (Stage 2), EventBridge orchestration (Stage 3). Built independently deliverable — team saw value from Stage 1 while Stage 2 was in progress. Least privilege security by design throughout.</p>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-tag">Python · SQLAlchemy · DocuSign API</div>
+      <h3 class="project-title">Contract Generation Pipeline</h3>
+      <p class="project-desc">Hired as a new employee and immediately handed a critical project: build a system to auto-generate XML contracts and send them to DocuSign — in a month and a half — with no database yet. I reverse-engineered 6 manual XML documents, built a 5-layer XMLBuilder Engine designed like a Lego system, and delivered working code before the database existed.</p>
+      <div class="project-impact">
+        <div class="impact-row"><span class="impact-num">1hr → mins</span><span class="impact-text">per contract document</span></div>
+      </div>
+      <div class="project-tech">
+        <span class="tech-pill">Python</span><span class="tech-pill">SQLAlchemy</span><span class="tech-pill">MySQL</span>
+        <span class="tech-pill">dicttoxml</span><span class="tech-pill">ElementTree</span><span class="tech-pill">DocuSign API</span>
+      </div>
+      <a href="https://github.com/engysamaan/contract-generation-pipeline" class="project-link">View on GitHub</a>
+    </div>
+
+    <div class="project-card">
+      <div class="project-tag">AWS · SageMaker · IAM · Boto3</div>
+      <h3 class="project-title">SageMaker Contractor Onboarding</h3>
+      <p class="project-desc">AWS admins were spending 30–45 minutes manually onboarding every new contractor — and on busy days 5+ people joined at once. I automated the entire process: S3 folder, IAM policy, IAM role, managed policy attachment, and notebook provisioning — all from 3 simple inputs.</p>
+      <div class="project-impact">
+        <div class="impact-row"><span class="impact-num">90%</span><span class="impact-text">reduction in setup time</span></div>
+        <div class="impact-row" style="margin-top:0.5rem"><span class="impact-num">30min → 3min</span><span class="impact-text">per contractor</span></div>
+      </div>
+      <div class="project-tech">
+        <span class="tech-pill">Python</span><span class="tech-pill">Boto3</span><span class="tech-pill">SageMaker</span>
+        <span class="tech-pill">IAM</span><span class="tech-pill">S3</span><span class="tech-pill">KMS</span>
+      </div>
+      <a href="https://github.com/engysamaan/aws_development/blob/main/create_new_sm_instance.py" class="project-link">View on GitHub</a>
+    </div>
+
+    <div class="project-card">
+      <div class="project-tag">AWS · Lambda · CloudWatch · SageMaker</div>
+      <h3 class="project-title">CloudWatch Storage Monitor</h3>
+      <p class="project-desc">No visibility into how much storage SageMaker users were consuming — until it was too late. I built a Lambda function that automatically scans user and public directories, measures folder sizes in MB, and publishes custom metrics to CloudWatch in batches — enabling proactive monitoring and alerts.</p>
+      <div class="project-tech">
+        <span class="tech-pill">Python</span><span class="tech-pill">Boto3</span><span class="tech-pill">CloudWatch</span>
+        <span class="tech-pill">Lambda</span><span class="tech-pill">SageMaker</span><span class="tech-pill">subprocess</span>
+      </div>
+      <a href="https://github.com/engysamaan/aws_development/blob/main/cloudwatch_metrics_lamdbafunc.py" class="project-link">View on GitHub</a>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="experience">
+  <div class="section-tag">Career</div>
+  <h2 class="section-title">Experience</h2>
+  <p class="section-sub">6 years across government, enterprise, and startup environments.</p>
+
+  <div class="exp-list">
+    <div class="exp-item">
+      <div class="exp-period">Dec 2022 – Nov 2025</div>
+      <div>
+        <div class="exp-company">SMXTech</div>
+        <div class="exp-role">Python AWS Data Engineer</div>
+        <ul class="exp-bullets">
+          <li>Reduced deployment processing time by 88% — from 2 hours to 15 minutes</li>
+          <li>Automated AWS provisioning, cutting setup time 90% from 30 min to 3 min</li>
+          <li>Applied generative AI to data migration scripts — 40% faster development</li>
+          <li>Built Python web apps for PEPFAR using Pyramid framework & REST APIs</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-period">Jan 2022 – Dec 2022</div>
+      <div>
+        <div class="exp-company">Parker Hannifin</div>
+        <div class="exp-role">Python Integrations Developer</div>
+        <ul class="exp-bullets">
+          <li>Built Python ETL pipelines extracting from SQL Server → XML for DocuSign</li>
+          <li>Reduced manual XML creation from ~1 hour per document to minutes</li>
+          <li>Built synthetic test datasets enabling pipeline validation before DB completion</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-period">Mar 2019 – Jan 2022</div>
+      <div>
+        <div class="exp-company">Lovelytics</div>
+        <div class="exp-role">Python Backend Developer & Salesforce Consultant</div>
+        <ul class="exp-bullets">
+          <li>Led Python ETL pipelines and data transformation for enterprise clients</li>
+          <li>Built Tableau dashboards and Alteryx workflows for analytics delivery</li>
+          <li>Managed Salesforce environments and SQL query optimization</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="clearance-banner">
+    <div class="clearance-icon">🔐</div>
+    <div>
+      <div class="clearance-title">Active U.S. Secret Clearance (T3)</div>
+      <div class="clearance-sub">Granted April 2023 · Valid through 2027 · Available for government & defense contracts immediately</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="skills">
+  <div class="section-tag">Technical Skills</div>
+  <h2 class="section-title">Stack & Tools</h2>
+  <p class="section-sub">Built on Python. Scaled on AWS.</p>
+
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="skill-group-title">Languages</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">SQL</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">Shell</span>
+        <span class="skill-tag">T-SQL</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">AWS & Cloud</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Lambda</span>
+        <span class="skill-tag">S3</span>
+        <span class="skill-tag">EC2</span>
+        <span class="skill-tag">SageMaker</span>
+        <span class="skill-tag">SSM</span>
+        <span class="skill-tag">EventBridge</span>
+        <span class="skill-tag">IAM</span>
+        <span class="skill-tag">CloudWatch</span>
+        <span class="skill-tag">KMS</span>
+        <span class="skill-tag">Azure</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Data Engineering</div>
+      <div class="skill-tags">
+        <span class="skill-tag">ETL Pipelines</span>
+        <span class="skill-tag">Pandas</span>
+        <span class="skill-tag">Snowflake</span>
+        <span class="skill-tag">PostgreSQL</span>
+        <span class="skill-tag">MongoDB</span>
+        <span class="skill-tag">Airflow</span>
+        <span class="skill-tag">SQLAlchemy</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">DevOps & Automation</div>
+      <div class="skill-tags">
+        <span class="skill-tag">GitHub Actions</span>
+        <span class="skill-tag">CI/CD</span>
+        <span class="skill-tag">Terraform</span>
+        <span class="skill-tag">Docker</span>
+        <span class="skill-tag">Boto3</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Integrations</div>
+      <div class="skill-tags">
+        <span class="skill-tag">REST APIs</span>
+        <span class="skill-tag">ServiceNow</span>
+        <span class="skill-tag">DocuSign API</span>
+        <span class="skill-tag">Salesforce</span>
+        <span class="skill-tag">MuleSoft</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">Analytics & Visualization</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Tableau</span>
+        <span class="skill-tag">Alteryx</span>
+        <span class="skill-tag">Tableau Prep</span>
+        <span class="skill-tag">Jupyter</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<footer>
+  <div class="footer-name">Engy Tawadros</div>
+  <div class="footer-links">
+    <a href="https://github.com/engysamaan">GitHub</a>
+    <a href="https://www.linkedin.com/in/engy-tawadros/">LinkedIn</a>
+    <a href="https://trailblazer.me/id/esamaan">Salesforce</a>
+    <a href="mailto:engytimothawes@gmail.com">Email</a>
+  </div>
+</footer>
+
+</body>
+</html>
